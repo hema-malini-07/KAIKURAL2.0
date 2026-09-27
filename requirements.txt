@@ -1,0 +1,8 @@
+Flask
+Flask-SocketIO
+opencv-python-headless
+mediapipe
+numpy
+joblib
+scikit-learn
+simple-websocket

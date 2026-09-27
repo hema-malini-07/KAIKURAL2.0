@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>KAIKURAL | Translator</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: #070914;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+        /* NAVBAR */
+
+        .navbar {
+            width: min(1180px, 92%);
+            height: 76px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 11px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: linear-gradient(
+                135deg,
+                #7567ff,
+                #9c92ff
+            );
+
+            font-family: "Space Grotesk", sans-serif;
+            font-weight: 700;
+
+            box-shadow:
+                0 0 25px rgba(117,103,255,0.3);
+        }
+
+        .brand-name {
+            font-family: "Space Grotesk", sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 20px;
+        }
+
+        .back-home {
+            color: #858ba3;
+            font-size: 13px;
+            transition: 0.3s;
+        }
+
+        .back-home:hover {
+            color: white;
+        }
+
+
+        /* MAIN */
+
+        .translator-page {
+            width: min(1180px, 92%);
+            margin: auto;
+
+            padding: 70px 0 90px;
+        }
+
+
+        /* HEADER */
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .page-label {
+            color: #7567ff;
+            font-size: 10px;
+            letter-spacing: 2px;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .page-header h1 {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(36px, 5vw, 58px);
+            letter-spacing: -2px;
+            margin-bottom: 14px;
+        }
+
+        .page-header h1 span {
+            color: #858ba3;
+        }
+
+        .page-header p {
+            color: #858ba3;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+
+        /* TRANSLATOR GRID */
+
+        .translator-grid {
+            display: grid;
+            grid-template-columns: 1.35fr 0.75fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+
+        /* CAMERA CARD */
+
+        .camera-card {
+            background: #0d1020;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            overflow: hidden;
+
+            box-shadow:
+                0 25px 70px rgba(0,0,0,0.3);
+        }
+
+        .camera-topbar {
+            height: 58px;
+            padding: 0 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .camera-title {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .camera-status {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            color: #858ba3;
+            font-size: 11px;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+            background: #555b73;
+        }
+
+
+        /* VIDEO */
+
+        .camera-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+
+            background: #050711;
+            overflow: hidden;
+        }
+
+        #camera {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+
+            transform: scaleX(-1);
+        }
+
+        .camera-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+
+        /* CORNERS */
+
+        .corner {
+            position: absolute;
+
+            width: 38px;
+            height: 38px;
+        }
+
+        .corner.tl {
+            top: 20px;
+            left: 20px;
+
+            border-top: 2px solid #7567ff;
+            border-left: 2px solid #7567ff;
+        }
+
+        .corner.tr {
+            top: 20px;
+            right: 20px;
+
+            border-top: 2px solid #7567ff;
+            border-right: 2px solid #7567ff;
+        }
+
+        .corner.bl {
+            bottom: 20px;
+            left: 20px;
+
+            border-bottom: 2px solid #7567ff;
+            border-left: 2px solid #7567ff;
+        }
+
+        .corner.br {
+            bottom: 20px;
+            right: 20px;
+
+            border-bottom: 2px solid #7567ff;
+            border-right: 2px solid #7567ff;
+        }
+
+
+        /* SCAN */
+
+        .scan-line {
+            position: absolute;
+
+            left: 8%;
+            right: 8%;
+
+            height: 1px;
+
+            background: rgba(117,103,255,0.7);
+
+            box-shadow:
+                0 0 14px rgba(117,103,255,0.8);
+
+            animation: scan 3s infinite ease-in-out;
+        }
+
+
+        .scan-text {
+            position: absolute;
+
+            left: 50%;
+            bottom: 25px;
+
+            transform: translateX(-50%);
+
+            padding: 8px 14px;
+
+            border-radius: 7px;
+
+            background: rgba(7,9,20,0.75);
+            border: 1px solid rgba(255,255,255,0.08);
+
+            color: #c4c8d7;
+
+            font-size: 10px;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+
+        /* CAMERA CONTROLS */
+
+        .camera-controls {
+            padding: 18px 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-top: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .camera-info {
+            color: #62687e;
+            font-size: 11px;
+        }
+
+        #startCamera {
+            border: none;
+            outline: none;
+
+            padding: 12px 20px;
+
+            border-radius: 9px;
+
+            background: #7567ff;
+            color: white;
+
+            font-family: "DM Sans", sans-serif;
+            font-weight: 600;
+            font-size: 12px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        #startCamera:hover {
+            background: #877aff;
+            transform: translateY(-2px);
+        }
+
+        #startCamera:disabled {
+            background: #30354d;
+            color: #858ba3;
+            cursor: default;
+            transform: none;
+        }
+
+
+        /* RESULT CARD */
+
+        .translation-result-card {
+            background: #0d1020;
+            border: 1px solid rgba(255,255,255,0.08);
+
+            border-radius: 18px;
+
+            padding: 28px;
+
+            min-height: 500px;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .result-label {
+            color: #7567ff;
+            font-size: 10px;
+            letter-spacing: 2px;
+            font-weight: 700;
+
+            margin-bottom: 18px;
+        }
+
+        #prediction {
+            font-family: "Space Grotesk", sans-serif;
+
+            font-size: clamp(38px, 4vw, 55px);
+            font-weight: 600;
+
+            line-height: 1;
+
+            word-break: break-word;
+        }
+
+        .result-divider {
+            width: 100%;
+            height: 1px;
+
+            background: rgba(255,255,255,0.07);
+
+            margin: 28px 0;
+        }
+
+        .result-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .result-info small {
+            display: block;
+
+            color: #62687e;
+
+            font-size: 9px;
+            letter-spacing: 1.5px;
+
+            margin-bottom: 8px;
+        }
+
+        .result-info strong {
+            display: block;
+
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 17px;
+            font-weight: 500;
+
+            color: #dfe2ed;
+        }
+
+
+        /* CONFIDENCE */
+
+        .confidence-wrapper {
+            margin-top: 30px;
+        }
+
+        .confidence-top {
+            display: flex;
+            justify-content: space-between;
+
+            color: #62687e;
+
+            font-size: 9px;
+            letter-spacing: 1px;
+
+            margin-bottom: 9px;
+        }
+
+        #confidenceSmall {
+            color: #58d69b;
+        }
+
+        .confidence-track {
+            width: 100%;
+            height: 5px;
+
+            background: #20243a;
+
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #confidenceBar {
+            width: 0%;
+            height: 100%;
+
+            background: linear-gradient(
+                90deg,
+                #7567ff,
+                #58d69b
+            );
+
+            border-radius: 10px;
+
+            transition: width 0.35s ease;
+        }
+
+
+        /* SUPPORTED */
+
+        .supported-mini {
+            margin-top: auto;
+            padding-top: 30px;
+        }
+
+        .supported-mini-title {
+            color: #62687e;
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+        }
+
+        .mini-signs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .mini-signs span {
+            padding: 7px 10px;
+
+            border-radius: 6px;
+
+            background: #15192b;
+            border: 1px solid rgba(255,255,255,0.06);
+
+            color: #a2a7b8;
+
+            font-size: 10px;
+        }
+
+
+        /* INSTRUCTIONS */
+
+        .instructions {
+            margin-top: 20px;
+
+            padding: 22px;
+
+            background: rgba(117,103,255,0.05);
+
+            border: 1px solid rgba(117,103,255,0.12);
+
+            border-radius: 14px;
+        }
+
+        .instructions-title {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .instructions p {
+            color: #858ba3;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+
+        /* ANIMATION */
+
+        @keyframes scan {
+
+            0%, 100% {
+                top: 12%;
+                opacity: 0.25;
+            }
+
+            50% {
+                top: 85%;
+                opacity: 1;
+            }
+
+        }
+
+
+        /* RESPONSIVE */
+
+        @media (max-width: 950px) {
+
+            .translator-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .camera-container {
+                height: 450px;
+            }
+
+            .translation-result-card {
+                min-height: auto;
+            }
+
+            .supported-mini {
+                margin-top: 35px;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            .back-home {
+                font-size: 12px;
+            }
+
+            .translator-page {
+                padding-top: 45px;
+            }
+
+            .camera-container {
+                height: 350px;
+            }
+
+            .camera-controls {
+                flex-direction: column;
+                gap: 14px;
+                align-items: stretch;
+            }
+
+            #startCamera {
+                width: 100%;
+            }
+
+            .result-info {
+                grid-template-columns: 1fr;
+            }
+
+            .translation-result-card {
+                padding: 22px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <a href="/" class="brand">
+
+            <div class="brand-mark">
+                K
+            </div>
+
+            <div class="brand-name">
+                KAIKURAL
+            </div>
+
+        </a>
+
+
+        <a href="/" class="back-home">
+            ← Back to Home
+        </a>
+
+    </header>
+
+
+    <!-- MAIN -->
+
+    <main class="translator-page">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <div class="page-label">
+                LIVE TRANSLATION
+            </div>
+
+            <h1>
+                Indian Sign Language
+                <span>Translator.</span>
+            </h1>
+
+            <p>
+                Start your camera and perform a supported
+                hand gesture in front of the camera.
+            </p>
+
+        </div>
+
+
+        <!-- TRANSLATOR -->
+
+        <div class="translator-grid">
+
+
+            <!-- CAMERA -->
+
+            <div class="camera-card">
+
+                <div class="camera-topbar">
+
+                    <div class="camera-title">
+                        Camera Input
+                    </div>
+
+                    <div class="camera-status">
+
+                        <span
+                            class="status-dot"
+                            id="statusDot">
+                        </span>
+
+                        <span id="cameraStatus">
+                            Camera inactive
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="camera-container">
+
+                    <video
+                        id="camera"
+                        autoplay
+                        playsinline>
+                    </video>
+
+
+                    <div class="camera-overlay">
+
+                        <div class="corner tl"></div>
+                        <div class="corner tr"></div>
+                        <div class="corner bl"></div>
+                        <div class="corner br"></div>
+
+                        <div class="scan-line"></div>
+
+                        <div class="scan-text">
+                            PLACE YOUR HAND INSIDE THE FRAME
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="camera-controls">
+
+                    <div class="camera-info">
+                        Real-time camera recognition
+                    </div>
+
+                    <button id="startCamera">
+                        Start Camera
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- RESULT -->
+
+            <div class="translation-result-card">
+
+                <div class="result-label">
+                    DETECTED SIGN
+                </div>
+
+
+                <div id="prediction">
+                    —
+                </div>
+
+
+                <div class="result-divider"></div>
+
+
+                <div class="result-info">
+
+                    <div>
+
+                        <small>
+                            TRANSLATION
+                        </small>
+
+                        <strong id="translation">
+                            Waiting for gesture
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>
+                            CONFIDENCE
+                        </small>
+
+                        <strong id="confidence">
+                            0%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CONFIDENCE -->
+
+                <div class="confidence-wrapper">
+
+                    <div class="confidence-top">
+
+                        <span>
+                            RECOGNITION LEVEL
+                        </span>
+
+                        <span id="confidenceSmall">
+                            0%
+                        </span>
+
+                    </div>
+
+
+                    <div class="confidence-track">
+
+                        <div id="confidenceBar"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUPPORTED -->
+
+                <div class="supported-mini">
+
+                    <div class="supported-mini-title">
+                        CURRENTLY SUPPORTED
+                    </div>
+
+
+                    <div class="mini-signs">
+
+                        <span>HELLO</span>
+                        <span>THANK YOU</span>
+                        <span>YES</span>
+                        <span>NO</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- INSTRUCTIONS -->
+
+        <div class="instructions">
+
+            <div class="instructions-title">
+                How to use
+            </div>
+
+            <p>
+                Click "Start Camera" and allow camera permission.
+                Keep your hand clearly visible inside the camera
+                frame. Perform one of the supported gestures and
+                KAIKURAL will display the detected sign and its
+                translation in real time.
+            </p>
+
+        </div>
+
+
+    </main>
+
+
+    <!-- SOCKET.IO -->
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const socket = io();
+
+            const video =
+                document.getElementById("camera");
+
+            const startButton =
+                document.getElementById("startCamera");
+
+            const statusText =
+                document.getElementById("cameraStatus");
+
+            const statusDot =
+                document.getElementById("statusDot");
+
+            const prediction =
+                document.getElementById("prediction");
+
+            const translation =
+                document.getElementById("translation");
+
+            const confidence =
+                document.getElementById("confidence");
+
+            const confidenceSmall =
+                document.getElementById("confidenceSmall");
+
+            const confidenceBar =
+                document.getElementById("confidenceBar");
+
+
+            let cameraRunning = false;
+            let frameInterval = null;
+            let mediaStream = null;
+
+
+            /* START CAMERA */
+
+            startButton.addEventListener(
+                "click",
+                async function () {
+
+                    try {
+
+                        mediaStream =
+                            await navigator.mediaDevices.getUserMedia({
+                                video: true,
+                                audio: false
+                            });
+
+
+                        video.srcObject =
+                            mediaStream;
+
+
+                        cameraRunning = true;
+
+
+                        statusText.textContent =
+                            "Camera active";
+
+                        statusDot.style.background =
+                            "#58d69b";
+
+                        statusDot.style.boxShadow =
+                            "0 0 10px rgba(88,214,155,0.7)";
+
+
+                        startButton.textContent =
+                            "Camera Active";
+
+                        startButton.disabled =
+                            true;
+
+
+                        startSendingFrames();
+
+
+                    } catch (error) {
+
+                        console.error(
+                            "Camera error:",
+                            error
+                        );
+
+                        statusText.textContent =
+                            "Camera permission denied";
+
+                        statusDot.style.background =
+                            "#e76b6b";
+
+                    }
+
+                }
+            );
+
+
+            /* SEND CAMERA FRAMES */
+
+            function startSendingFrames() {
+
+                if (frameInterval) {
+                    clearInterval(frameInterval);
+                }
+
+
+                const canvas =
+                    document.createElement("canvas");
+
+                const context =
+                    canvas.getContext("2d");
+
+
+                frameInterval =
+                    setInterval(function () {
+
+                        if (!cameraRunning) {
+                            return;
+                        }
+
+
+                        if (video.videoWidth === 0) {
+                            return;
+                        }
+
+
+                        canvas.width =
+                            video.videoWidth;
+
+                        canvas.height =
+                            video.videoHeight;
+
+
+                        context.drawImage(
+                            video,
+                            0,
+                            0,
+                            canvas.width,
+                            canvas.height
+                        );
+
+
+                        const image =
+                            canvas.toDataURL(
+                                "image/jpeg",
+                                0.6
+                            );
+
+
+                        socket.emit(
+                            "camera_frame",
+                            image
+                        );
+
+
+                    }, 150);
+
+            }
+
+
+            /* RECEIVE PREDICTION */
+
+            socket.on(
+                "prediction",
+                function (data) {
+
+                    prediction.textContent =
+                        data.sign || "—";
+
+
+                    translation.textContent =
+                        data.translation ||
+                        "Waiting for gesture";
+
+
+                    const value =
+                        Number(data.confidence) || 0;
+
+
+                    const safeValue =
+                        Math.max(
+                            0,
+                            Math.min(100, value)
+                        );
+
+
+                    confidence.textContent =
+                        safeValue + "%";
+
+
+                    confidenceSmall.textContent =
+                        safeValue + "%";
+
+
+                    confidenceBar.style.width =
+                        safeValue + "%";
+
+                }
+            );
+
+
+            /* CLEANUP */
+
+            window.addEventListener(
+                "beforeunload",
+                function () {
+
+                    cameraRunning = false;
+
+
+                    if (frameInterval) {
+
+                        clearInterval(
+                            frameInterval
+                        );
+
+                    }
+
+
+                    if (mediaStream) {
+
+                        mediaStream
+                            .getTracks()
+                            .forEach(function (track) {
+                                track.stop();
+                            });
+
+                    }
+
+                }
+            );
+
+        });
+
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KAIKURAL | Indian Sign Language Translator</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            background: #070914;
+            color: #f5f7ff;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Background glow */
+
+        body::before {
+            content: "";
+            position: fixed;
+            width: 550px;
+            height: 550px;
+            background: rgba(117, 103, 255, 0.12);
+            filter: blur(130px);
+            border-radius: 50%;
+            top: -200px;
+            right: -150px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: rgba(88, 214, 155, 0.06);
+            filter: blur(120px);
+            border-radius: 50%;
+            bottom: -150px;
+            left: -120px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            width: min(1180px, 92%);
+            height: 76px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-family: "Space Grotesk", sans-serif;
+            font-weight: 700;
+
+            background: linear-gradient(135deg, #7567ff, #9c92ff);
+            color: white;
+
+            box-shadow: 0 0 25px rgba(117,103,255,0.3);
+        }
+
+        .brand-name {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 34px;
+        }
+
+        .navigation a {
+            color: #858ba3;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .navigation a:hover,
+        .navigation .active {
+            color: white;
+        }
+
+        .nav-cta {
+            padding: 11px 18px;
+            border: 1px solid rgba(117,103,255,0.5);
+            border-radius: 9px;
+
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+
+            transition: 0.3s;
+        }
+
+        .nav-cta:hover {
+            background: #7567ff;
+            border-color: #7567ff;
+            transform: translateY(-2px);
+        }
+
+        /* HERO */
+
+        .hero {
+            width: min(1180px, 92%);
+            min-height: 650px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: 1fr 0.9fr;
+            gap: 70px;
+            align-items: center;
+        }
+
+        .hero-content {
+            animation: fadeUp 0.8s ease;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+
+            padding: 7px 12px;
+            border: 1px solid rgba(117,103,255,0.25);
+            border-radius: 50px;
+
+            color: #aaa5ff;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+
+            margin-bottom: 25px;
+        }
+
+        .eyebrow-dot {
+            width: 7px;
+            height: 7px;
+            background: #58d69b;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #58d69b;
+        }
+
+        .hero h1 {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: clamp(50px, 6vw, 78px);
+            line-height: 0.98;
+            letter-spacing: -3px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(90deg, #9c92ff, #7567ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-description {
+            max-width: 560px;
+            color: #858ba3;
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 32px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .primary-btn {
+            padding: 14px 23px;
+            border-radius: 10px;
+
+            background: #7567ff;
+            color: white;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            box-shadow: 0 12px 30px rgba(117,103,255,0.22);
+            transition: 0.3s;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 35px rgba(117,103,255,0.35);
+        }
+
+        .secondary-btn {
+            padding: 14px 23px;
+            border-radius: 10px;
+
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #c5c8d5;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            transition: 0.3s;
+        }
+
+        .secondary-btn:hover {
+            border-color: rgba(117,103,255,0.5);
+            color: white;
+        }
+
+        /* HERO DEMO */
+
+        .hero-visual {
+            position: relative;
+            animation: fadeRight 1s ease;
+        }
+
+        .demo-card {
+            background: rgba(13,16,32,0.85);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            overflow: hidden;
+
+            box-shadow:
+                0 30px 80px rgba(0,0,0,0.4),
+                0 0 50px rgba(117,103,255,0.08);
+        }
+
+        .demo-header {
+            height: 54px;
+            padding: 0 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .window-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .window-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #34394e;
+        }
+
+        .live-badge {
+            font-size: 10px;
+            color: #58d69b;
+            letter-spacing: 1px;
+        }
+
+        .camera-preview {
+            height: 300px;
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                radial-gradient(circle at center, rgba(117,103,255,0.15), transparent 45%),
+                #090c18;
+        }
+
+        .scan-line {
+            position: absolute;
+            left: 12%;
+            right: 12%;
+            height: 1px;
+
+            background: rgba(117,103,255,0.7);
+            box-shadow: 0 0 15px rgba(117,103,255,0.8);
+
+            animation: scan 3s infinite ease-in-out;
+        }
+
+        .hand-shape {
+            width: 120px;
+            height: 150px;
+
+            border: 2px solid rgba(156,146,255,0.7);
+            border-radius: 55px 55px 35px 35px;
+
+            transform: rotate(-8deg);
+
+            box-shadow:
+                0 0 35px rgba(117,103,255,0.2),
+                inset 0 0 30px rgba(117,103,255,0.08);
+        }
+
+        .corner {
+            position: absolute;
+            width: 26px;
+            height: 26px;
+        }
+
+        .corner.tl {
+            top: 18px;
+            left: 18px;
+            border-top: 2px solid #7567ff;
+            border-left: 2px solid #7567ff;
+        }
+
+        .corner.tr {
+            top: 18px;
+            right: 18px;
+            border-top: 2px solid #7567ff;
+            border-right: 2px solid #7567ff;
+        }
+
+        .corner.bl {
+            bottom: 18px;
+            left: 18px;
+            border-bottom: 2px solid #7567ff;
+            border-left: 2px solid #7567ff;
+        }
+
+        .corner.br {
+            bottom: 18px;
+            right: 18px;
+            border-bottom: 2px solid #7567ff;
+            border-right: 2px solid #7567ff;
+        }
+
+        .demo-result {
+            padding: 22px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .demo-label {
+            color: #858ba3;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            margin-bottom: 5px;
+        }
+
+        .demo-sign {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 30px;
+            font-weight: 600;
+        }
+
+        .demo-confidence {
+            text-align: right;
+        }
+
+        .confidence-number {
+            font-size: 20px;
+            color: #58d69b;
+            font-weight: 600;
+        }
+
+        /* SECTION */
+
+        .section {
+            width: min(1180px, 92%);
+            margin: 90px auto;
+        }
+
+        .section-label {
+            color: #7567ff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 40px;
+            letter-spacing: -1.5px;
+            margin-bottom: 45px;
+        }
+
+        .section-title span {
+            color: #858ba3;
+        }
+
+        /* TECHNOLOGY */
+
+        .technology-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .tech-card {
+            min-height: 220px;
+            padding: 25px;
+
+            background: #0d1020;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 15px;
+
+            transition: 0.3s;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-7px);
+            border-color: rgba(117,103,255,0.35);
+            background: #10142a;
+        }
+
+        .tech-number {
+            font-size: 11px;
+            color: #7567ff;
+            margin-bottom: 55px;
+        }
+
+        .tech-card h3 {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .tech-card p {
+            color: #858ba3;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* FEATURES */
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .feature-card {
+            padding: 30px;
+            border-radius: 15px;
+
+            background: linear-gradient(
+                145deg,
+                rgba(18,22,42,0.9),
+                rgba(13,16,32,0.9)
+            );
+
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+
+        .feature-icon {
+            width: 45px;
+            height: 45px;
+
+            border-radius: 12px;
+            background: rgba(117,103,255,0.12);
+            border: 1px solid rgba(117,103,255,0.2);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #9c92ff;
+            font-family: "Space Grotesk", sans-serif;
+            font-weight: 700;
+
+            margin-bottom: 24px;
+        }
+
+        .feature-card h3 {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            color: #858ba3;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        /* SUPPORTED SIGNS */
+
+        .supported-section {
+            width: min(1180px, 92%);
+            margin: 110px auto;
+        }
+
+        .supported-header {
+            margin-bottom: 35px;
+        }
+
+        .sign-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .sign-card {
+            position: relative;
+            padding: 27px;
+            min-height: 145px;
+
+            background: #0d1020;
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 15px;
+
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .sign-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(117,103,255,0.4);
+        }
+
+        .sign-number {
+            position: absolute;
+            top: 18px;
+            right: 20px;
+
+            font-size: 10px;
+            color: #555b73;
+        }
+
+        .sign-card h3 {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 22px;
+            margin-top: 25px;
+        }
+
+        .sign-card p {
+            margin-top: 7px;
+            color: #858ba3;
+            font-size: 12px;
+        }
+
+        /* ABOUT */
+
+        .about-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+
+            padding: 45px;
+
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.07);
+            background: #0d1020;
+        }
+
+        .about-box h2 {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 32px;
+            margin-bottom: 18px;
+        }
+
+        .about-box p {
+            color: #858ba3;
+            line-height: 1.8;
+            font-size: 14px;
+        }
+
+        .about-points {
+            display: grid;
+            gap: 15px;
+        }
+
+        .about-point {
+            padding: 18px;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 11px;
+        }
+
+        .about-point strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .about-point span {
+            color: #858ba3;
+            font-size: 12px;
+        }
+
+        /* CTA */
+
+        .cta {
+            width: min(1000px, 92%);
+            margin: 120px auto;
+
+            text-align: center;
+            padding: 70px 30px;
+
+            border: 1px solid rgba(117,103,255,0.2);
+            border-radius: 22px;
+
+            background:
+                radial-gradient(circle at center, rgba(117,103,255,0.12), transparent 65%),
+                #0d1020;
+        }
+
+        .cta h2 {
+            font-family: "Space Grotesk", sans-serif;
+            font-size: 42px;
+            letter-spacing: -1px;
+            margin-bottom: 15px;
+        }
+
+        .cta p {
+            color: #858ba3;
+            margin-bottom: 30px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            width: min(1180px, 92%);
+            margin: auto;
+
+            padding: 28px 0;
+
+            border-top: 1px solid rgba(255,255,255,0.07);
+
+            display: flex;
+            justify-content: space-between;
+
+            color: #62687e;
+            font-size: 12px;
+        }
+
+        /* ANIMATIONS */
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scan {
+            0%, 100% {
+                top: 18%;
+                opacity: 0.3;
+            }
+
+            50% {
+                top: 80%;
+                opacity: 1;
+            }
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .navigation {
+                display: none;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 70px 0;
+            }
+
+            .technology-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .sign-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-box {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .nav-cta {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .technology-grid,
+            .sign-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .about-box {
+                padding: 28px;
+            }
+
+            .cta h2 {
+                font-size: 32px;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <a href="/" class="brand">
+            <div class="brand-mark">K</div>
+            <div class="brand-name">KAIKURAL</div>
+        </a>
+
+        <nav class="navigation">
+            <a href="#home" class="active">Home</a>
+            <a href="#technology">Technology</a>
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+        </nav>
+
+        <a href="/translator" class="nav-cta">
+            Open Translator →
+        </a>
+
+    </header>
+
+
+    <!-- HERO -->
+
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <div class="eyebrow">
+                <span class="eyebrow-dot"></span>
+                AI-POWERED ISL TRANSLATION
+            </div>
+
+            <h1>
+                Communication<br>
+                <span>without barriers.</span>
+            </h1>
+
+            <p class="hero-description">
+                KAIKURAL is an AI-powered Indian Sign Language
+                translation platform that recognizes hand gestures
+                through a camera and converts them into meaningful
+                text in real time.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="/translator" class="primary-btn">
+                    Start Translation →
+                </a>
+
+                <a href="#technology" class="secondary-btn">
+                    Explore Technology
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- DEMO -->
+
+        <div class="hero-visual">
+
+            <div class="demo-card">
+
+                <div class="demo-header">
+
+                    <div class="window-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+
+                    <div class="live-badge">
+                        LIVE RECOGNITION
+                    </div>
+
+                </div>
+
+
+                <div class="camera-preview">
+
+                    <div class="corner tl"></div>
+                    <div class="corner tr"></div>
+                    <div class="corner bl"></div>
+                    <div class="corner br"></div>
+
+                    <div class="hand-shape"></div>
+
+                    <div class="scan-line"></div>
+
+                </div>
+
+
+                <div class="demo-result">
+
+                    <div>
+                        <div class="demo-label">
+                            DETECTED SIGN
+                        </div>
+
+                        <div class="demo-sign">
+                            HELLO
+                        </div>
+                    </div>
+
+                    <div class="demo-confidence">
+
+                        <div class="demo-label">
+                            CONFIDENCE
+                        </div>
+
+                        <div class="confidence-number">
+                            96.8%
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- TECHNOLOGY -->
+
+    <section class="section" id="technology">
+
+        <div class="section-label">
+            HOW IT WORKS
+        </div>
+
+        <h2 class="section-title">
+            From gesture to <span>meaning.</span>
+        </h2>
+
+
+        <div class="technology-grid">
+
+            <div class="tech-card">
+                <div class="tech-number">01 / INPUT</div>
+
+                <h3>Hand Detection</h3>
+
+                <p>
+                    The camera captures the user's hand
+                    movement in real time.
+                </p>
+            </div>
+
+
+            <div class="tech-card">
+                <div class="tech-number">02 / PROCESS</div>
+
+                <h3>Landmark Extraction</h3>
+
+                <p>
+                    Hand landmarks are extracted to represent
+                    the gesture accurately.
+                </p>
+            </div>
+
+
+            <div class="tech-card">
+                <div class="tech-number">03 / AI</div>
+
+                <h3>Gesture Classification</h3>
+
+                <p>
+                    The trained machine learning model
+                    identifies the performed sign.
+                </p>
+            </div>
+
+
+            <div class="tech-card">
+                <div class="tech-number">04 / OUTPUT</div>
+
+                <h3>Real-Time Translation</h3>
+
+                <p>
+                    The recognized sign is converted into
+                    understandable text instantly.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FEATURES -->
+
+    <section class="section" id="features">
+
+        <div class="section-label">
+            PLATFORM FEATURES
+        </div>
+
+        <h2 class="section-title">
+            Built for <span>real-time interaction.</span>
+        </h2>
+
+
+        <div class="features-grid">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    01
+                </div>
+
+                <h3>Real-Time Recognition</h3>
+
+                <p>
+                    Process camera frames continuously
+                    and provide instant gesture predictions.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    02
+                </div>
+
+                <h3>Simple Interaction</h3>
+
+                <p>
+                    A clean interface allows users to start
+                    translation with minimal interaction.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    03
+                </div>
+
+                <h3>Scalable Architecture</h3>
+
+                <p>
+                    The application can be extended with
+                    additional ISL gestures and vocabulary.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SUPPORTED SIGNS -->
+
+    <section class="supported-section">
+
+        <div class="supported-header">
+
+            <div class="section-label">
+                CURRENT VOCABULARY
+            </div>
+
+            <h2 class="section-title">
+                Supported <span>signs.</span>
+            </h2>
+
+        </div>
+
+
+        <div class="sign-grid">
+
+            <div class="sign-card">
+                <div class="sign-number">01</div>
+                <h3>HELLO</h3>
+                <p>Basic greeting</p>
+            </div>
+
+
+            <div class="sign-card">
+                <div class="sign-number">02</div>
+                <h3>THANK YOU</h3>
+                <p>Expression of gratitude</p>
+            </div>
+
+
+            <div class="sign-card">
+                <div class="sign-number">03</div>
+                <h3>YES</h3>
+                <p>Positive response</p>
+            </div>
+
+
+            <div class="sign-card">
+                <div class="sign-number">04</div>
+                <h3>NO</h3>
+                <p>Negative response</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ABOUT -->
+
+    <section class="section" id="about">
+
+        <div class="about-box">
+
+            <div>
+
+                <div class="section-label">
+                    ABOUT KAIKURAL
+                </div>
+
+                <h2>
+                    Technology that helps
+                    people connect.
+                </h2>
+
+                <p>
+                    KAIKURAL focuses on reducing communication
+                    barriers by using computer vision and machine
+                    learning to recognize Indian Sign Language
+                    gestures.
+                </p>
+
+            </div>
+
+
+            <div class="about-points">
+
+                <div class="about-point">
+                    <strong>Computer Vision</strong>
+                    <span>Camera-based hand gesture recognition.</span>
+                </div>
+
+                <div class="about-point">
+                    <strong>Machine Learning</strong>
+                    <span>Trained model for gesture classification.</span>
+                </div>
+
+                <div class="about-point">
+                    <strong>Web Technology</strong>
+                    <span>Interactive real-time browser interface.</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CTA -->
+
+    <section class="cta">
+
+        <h2>Ready to translate?</h2>
+
+        <p>
+            Start the camera and perform a supported
+            Indian Sign Language gesture.
+        </p>
+
+        <a href="/translator" class="primary-btn">
+            Open Translator →
+        </a>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div>
+            © 2026 KAIKURAL
+        </div>
+
+        <div>
+            Indian Sign Language Translation Platform
+        </div>
+
+    </footer>
+
+</body>
+</html>
